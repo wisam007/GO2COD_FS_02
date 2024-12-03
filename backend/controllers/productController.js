@@ -3,26 +3,66 @@ const asyncHandler = require("express-async-handler");
 const Product = require("../model/productModel");
 
 const getProducts = async (req, res) => {
-  const products = await Product.find();
-
-  res.status(200).json(products);
+  try {
+    const product = await Product.find({});
+    res.status(200).json({
+      success: true,
+      message: "Data retrived successfully",
+      data: product,
+    });
+  } catch (error) {
+    console.log("Error", error.message);
+  }
 };
 
-const createProduct = asyncHandler(async (req, res) => {
-  const { name, description, image, price } = req.body;
-
-  if (!name || !description || !image || !price) {
-    res.status(400);
-    throw new Error("please fill in all fields");
+const createProduct = async (req, res) => {
+  const product = req.body;
+  if (!product.name || !product.price || !product.image) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Please fill all the required fields" });
   }
 
-  const product = await Product.create({
-    name,
-    description,
-    image,
-    price,
-  });
-  res.status(200).json(product);
-});
+  const newProduct = new Product(product);
 
-module.exports = { getProducts, createProduct };
+  try {
+    await newProduct.save();
+    res.status(200).json({ success: true, data: newProduct });
+  } catch (error) {
+    console.error("Error", error.message);
+    res.status(500).json({ success: false, message: "server error" });
+  }
+};
+
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const product = req.body;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res
+      .status(404)
+      .json({ success: false, message: "404 Product Not found" });
+  }
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(id, product, {
+      new: true,
+    });
+    res.status(200).json({ success: true, data: updatedProduct });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Product.findByIdAndDelete(id);
+    res
+      .status(200)
+      .json({ success: true, message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+module.exports = { createProduct, getProducts, updateProduct, deleteProduct };
