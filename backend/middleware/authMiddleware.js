@@ -41,7 +41,7 @@ const isAdmin = asyncHandler(async (req, res, next) => {
   console.log(req.user["role"]);
 
   if (role !== "admin") {
-    return res.status(403).json("You are not authorized.");
+    return res.status(403).json("Admins only,You are not authorized.");
   }
   next();
 });
