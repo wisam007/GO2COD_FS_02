@@ -11,9 +11,15 @@ import {
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { FaRegSquarePlus } from "react-icons/fa6";
+import { useLocation } from "react-router-dom";
+import { useUserStore } from "../store/user";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const location = useLocation();
+  const { user, logOUtUser } = useUserStore();
+
+  user ? console.log(user) : console.log("User not found");
 
   return (
     <Box
@@ -23,7 +29,7 @@ const Navbar = () => {
       top={0}
       zIndex={10}
     >
-      <Container maxW={"1140px"} px={4}>
+      <Container maxW={"1140px"}>
         <Flex
           h={16}
           alignItems={"center"}
@@ -49,21 +55,11 @@ const Navbar = () => {
 
           {/* Right Buttons */}
           <HStack spacing={4} mt={{ base: 4, sm: 0 }}>
-            {/* Create Product Button */}
-            <Link to={"/create"}>
-              <Button
-                leftIcon={<FaRegSquarePlus />}
-                colorScheme="teal"
-                variant="solid"
-                size="md"
-                _hover={{
-                  bgGradient: "linear(to-r, teal.500, green.400)",
-                  color: "white",
-                }}
-              >
-                Add Product
-              </Button>
-            </Link>
+            {user ? (
+              <Button onClick={logOUtUser}> Log Out</Button>
+            ) : (
+              <Link to={"/login"}>Login</Link>
+            )}
 
             {/* Dark Mode Toggle */}
             <IconButton

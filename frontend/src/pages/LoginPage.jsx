@@ -9,9 +9,31 @@ import {
   Flex,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useUserStore } from "../store/user";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const { logInUser, user } = useUserStore();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+  };
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await logInUser(formData);
+  };
   return (
     <Box p={6} maxW="1200px" mx="auto" mt={8}>
       <Flex
@@ -47,12 +69,15 @@ const LoginPage = () => {
           <Heading size="lg" mb={6} textAlign="center">
             Login to Your Account
           </Heading>
-          <form>
+          <form onSubmit={handleSubmit}>
             <FormControl mb={4}>
               <FormLabel>Email Address</FormLabel>
               <Input
+                name="email"
                 type="email"
+                required
                 placeholder="Enter your email"
+                onChange={handleChange}
                 bg={useColorModeValue("gray.100", "gray.700")}
                 _placeholder={{
                   color: useColorModeValue("gray.500", "gray.400"),
@@ -62,8 +87,11 @@ const LoginPage = () => {
             <FormControl mb={6}>
               <FormLabel>Password</FormLabel>
               <Input
+                name="password"
                 type="password"
+                required
                 placeholder="Enter your password"
+                onChange={handleChange}
                 bg={useColorModeValue("gray.100", "gray.700")}
                 _placeholder={{
                   color: useColorModeValue("gray.500", "gray.400"),
