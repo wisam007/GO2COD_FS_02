@@ -15,11 +15,11 @@ const HomePage = () => {
         <Text
           fontSize={"30"}
           fontWeight={"bold"}
-          bgGradient={"linear(to-r,cyan.400,blue)"}
+          bgGradient={"linear(to-r, blue.500, cyan.400)"}
           bgClip={"text"}
           textAlign={"center"}
         >
-          Current Products 🚀
+          Available Products
         </Text>
         {products.length == 0 && (
           <Text

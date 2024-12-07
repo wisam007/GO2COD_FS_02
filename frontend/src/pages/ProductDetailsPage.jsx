@@ -40,6 +40,8 @@ const ProductDetailsPage = () => {
     <Box p={6} maxW="1200px" mx="auto" mt={8}>
       {/* Back to Home Button */}
       <Flex
+        fontSize={"larger"}
+        fontWeight={"semibold"}
         as="button"
         onClick={() => {
           navigate("/");
@@ -47,10 +49,10 @@ const ProductDetailsPage = () => {
         alignItems="center"
         color="teal.500"
         mb={4}
-        _hover={{ textDecoration: "underline" }} // Underline on hover
+        _hover={{ textDecoration: "underline" }}
       >
-        <Icon as={ArrowBackIcon} boxSize={4} mr={2} /> {/* Icon */}
-        <Box>Back to Home</Box> {/* Text */}
+        <Icon as={ArrowBackIcon} boxSize={4} mr={2} />
+        <Box>Back to Home</Box>
       </Flex>
 
       {/* Product Details Container */}

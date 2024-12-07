@@ -43,7 +43,7 @@ const Navbar = () => {
                 bgGradient: "linear(to-r, blue.500, cyan.400)",
               }}
             >
-              Product Store 🛒
+              E-Store 🛒
             </Text>
           </Link>
 
