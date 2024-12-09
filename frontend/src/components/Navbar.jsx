@@ -13,13 +13,16 @@ import { Link } from "react-router-dom";
 import { FaRegSquarePlus } from "react-icons/fa6";
 import { useLocation } from "react-router-dom";
 import { useUserStore } from "../store/user";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const location = useLocation();
-  const { user, logOUtUser } = useUserStore();
+  const { user, logOutUser, rehydrateUser } = useUserStore();
 
-  user ? console.log(user) : console.log("User not found");
+  useEffect(() => {
+    rehydrateUser();
+  }, [rehydrateUser]);
 
   return (
     <Box
@@ -56,7 +59,7 @@ const Navbar = () => {
           {/* Right Buttons */}
           <HStack spacing={4} mt={{ base: 4, sm: 0 }}>
             {user ? (
-              <Button onClick={logOUtUser}> Log Out</Button>
+              <Button onClick={logOutUser}> Log Out</Button>
             ) : (
               <Link to={"/login"}>Login</Link>
             )}
