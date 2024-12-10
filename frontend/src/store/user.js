@@ -23,7 +23,24 @@ export const useUserStore = create((set) => ({
       };
     }
   },
-
+  registerUser: async (formData) => {
+    try {
+      set({ loading: true });
+      const { data } = await axios.post("/api/users/register", formData);
+      const token = data.token;
+      localStorage.setItem("User", token);
+      set({ user: data });
+      set({ loading: false });
+      return { success: true, message: "User Registered Successfully" };
+    } catch (error) {
+      console.log(error);
+      set({ loading: false });
+      return {
+        success: false,
+        message: error.response?.data?.message || "Error Signing Up",
+      };
+    }
+  },
   logOutUser: async () => {
     if (!localStorage.getItem("User")) {
       return { success: false, message: "User not found" };

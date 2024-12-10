@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useUserStore } from "../store/user";
 
-const LoginPage = () => {
+const LoginPage = ({ isAdmin }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -27,6 +27,7 @@ const LoginPage = () => {
   };
   useEffect(() => {
     if (user) {
+      console.log(user);
       navigate("/");
     }
   }, [user]);
@@ -56,7 +57,7 @@ const LoginPage = () => {
         >
           <Box>
             <Heading size="2xl" mb={4}>
-              User Login
+              {isAdmin ? "Admin Login" : "User Login"}
             </Heading>
             <Text fontSize="lg">
               Welcome back! Please log in to your account to continue.

@@ -15,12 +15,13 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage isAdmin={false} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/admin/create" element={<CreatePage />} />
         <Route path="/:id" element={<ProductDetailsPage />} />
-        <Route path="/admin" element={<ManageProducts />} />
+        <Route path="/admin" element={<LoginPage isAdmin={true} />} />
+        <Route path="/manage" element={<ManageProducts />} />
       </Routes>
     </Box>
   );

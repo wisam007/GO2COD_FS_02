@@ -9,9 +9,35 @@ import {
   Flex,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserStore } from "../store/user";
+import { useEffect, useState } from "react";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const { registerUser, user } = useUserStore();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+  };
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+    await registerUser(formData);
+  };
   return (
     <Box p={6} maxW="1200px" mx="auto" mt={8}>
       <Flex
@@ -47,13 +73,15 @@ const RegisterPage = () => {
           <Heading size="lg" mb={6} textAlign="center">
             Register Your Account
           </Heading>
-          <form>
+          <form onSubmit={handleSubmit}>
             <FormControl mb={4}>
               <FormLabel>Name</FormLabel>
               <Input
                 type="text"
+                name="name"
                 placeholder="Enter your name"
                 bg={useColorModeValue("gray.100", "gray.700")}
+                onChange={handleChange}
                 _placeholder={{
                   color: useColorModeValue("gray.500", "gray.400"),
                 }}
@@ -63,8 +91,10 @@ const RegisterPage = () => {
               <FormLabel>Email Address</FormLabel>
               <Input
                 type="email"
+                name="email"
                 placeholder="Enter your email"
                 bg={useColorModeValue("gray.100", "gray.700")}
+                onChange={handleChange}
                 _placeholder={{
                   color: useColorModeValue("gray.500", "gray.400"),
                 }}
@@ -74,8 +104,10 @@ const RegisterPage = () => {
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
+                name="password"
                 placeholder="Enter your password"
                 bg={useColorModeValue("gray.100", "gray.700")}
+                onChange={handleChange}
                 _placeholder={{
                   color: useColorModeValue("gray.500", "gray.400"),
                 }}

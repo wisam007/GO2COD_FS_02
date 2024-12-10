@@ -6,11 +6,12 @@ import {
   Button,
   useColorMode,
   IconButton,
+  Icon,
   Box,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
-import { FaRegSquarePlus } from "react-icons/fa6";
+import { FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useUserStore } from "../store/user";
 import { useEffect } from "react";
@@ -59,9 +60,42 @@ const Navbar = () => {
           {/* Right Buttons */}
           <HStack spacing={4} mt={{ base: 4, sm: 0 }}>
             {user ? (
-              <Button onClick={logOutUser}> Log Out</Button>
+              <Flex justifyItems={"space-between"} alignItems={"center"}>
+                <Box fontSize={"28px"} position="relative" mx={5}>
+                  <Link to={"/cart"}>
+                    <Icon color={"teal"} as={FaShoppingCart} boxSize={6} />
+                  </Link>
+
+                  {2 > 0 && (
+                    <Box
+                      position="absolute"
+                      top="-1"
+                      right="-1"
+                      bg="red.500"
+                      color="white"
+                      borderRadius="full"
+                      width="20px"
+                      height="20px"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      fontSize="sm"
+                    >
+                      <Text>{0}</Text>
+                    </Box>
+                  )}
+                </Box>
+                <Button onClick={logOutUser}>
+                  {" "}
+                  <FaSignOutAlt /> Log Out
+                </Button>
+              </Flex>
             ) : (
-              <Link to={"/login"}>Login</Link>
+              <>
+                {" "}
+                <Link to={"/login"}>Login</Link>
+                <Link to={"/register"}>Register</Link>
+              </>
             )}
 
             {/* Dark Mode Toggle */}
