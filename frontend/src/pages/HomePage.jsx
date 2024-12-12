@@ -2,13 +2,20 @@ import { Container, VStack, Text, SimpleGrid } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../store/product";
+import { useCart } from "../store/cart";
 import ProductCard from "../components/ProductCard";
 const HomePage = () => {
   const { fetchProducts, products } = useProductStore();
+  const { addToCart } = useCart();
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
   console.log(products);
+
+  const handleAddToCart = (e) => {
+    console.log("Button Clicked");
+    addToCart();
+  };
   return (
     <Container maxW={"container.xl"} py={12}>
       <VStack spacing={8}>
@@ -52,7 +59,11 @@ const HomePage = () => {
           w={"full"}
         >
           {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
+            <ProductCard
+              addToCart={handleAddToCart}
+              key={product._id}
+              product={product}
+            />
           ))}
         </SimpleGrid>
       </VStack>

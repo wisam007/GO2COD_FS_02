@@ -10,7 +10,7 @@ import {
 import { FaShoppingCart } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 
-const ProductCardList = ({ product }) => {
+const ProductCardList = ({ product, addToCart }) => {
   const params = useParams();
 
   return (
@@ -62,7 +62,12 @@ const ProductCardList = ({ product }) => {
           >
             View Details
           </Button>
-          <Button colorScheme="blue" leftIcon={<FaShoppingCart />} size="sm">
+          <Button
+            onClick={addToCart}
+            colorScheme="blue"
+            leftIcon={<FaShoppingCart />}
+            size="sm"
+          >
             Add to Cart
           </Button>
         </Stack>

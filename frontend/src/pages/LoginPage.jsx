@@ -27,8 +27,7 @@ const LoginPage = ({ isAdmin }) => {
   };
   useEffect(() => {
     if (user) {
-      console.log(user);
-      navigate("/");
+      isAdmin ? navigate("/manage") : navigate("/");
     }
   }, [user]);
   const handleSubmit = async (e) => {
@@ -44,7 +43,6 @@ const LoginPage = ({ isAdmin }) => {
         bg={useColorModeValue("white", "gray.800")}
         direction={{ base: "column", md: "row" }}
       >
-        {/* Left Side - Text */}
         <Box
           flex="1"
           p={8}

@@ -19,13 +19,8 @@ import { useEffect, useState } from "react";
 import { useProductStore } from "../store/product";
 
 const ManageProducts = () => {
-  const {
-    fetchProducts,
-    products,
-    createProduct,
-    updateProduct,
-    deleteProduct,
-  } = useProductStore();
+  const { fetchProducts, products, createProduct, editProduct, deleteProduct } =
+    useProductStore();
   const [editingProduct, setEditingProduct] = useState(null);
   const [formState, setFormState] = useState({
     name: "",
@@ -41,7 +36,7 @@ const ManageProducts = () => {
 
   const handleCreateOrUpdate = async () => {
     if (editingProduct) {
-      const { success, message } = await updateProduct({
+      const { success, message } = await editProduct({
         ...formState,
         _id: editingProduct._id,
       });
@@ -77,6 +72,7 @@ const ManageProducts = () => {
   };
 
   const handleDelete = async (id) => {
+    console.log(id);
     const { success, message } = await deleteProduct(id);
     toast({
       title: success ? "Deleted" : "Error",
